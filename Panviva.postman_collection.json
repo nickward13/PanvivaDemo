@@ -1,0 +1,67 @@
+{
+	"id": "1c73507e-7733-4d4c-813b-7d5e540d39a4",
+	"name": "Panviva",
+	"description": "",
+	"auth": null,
+	"events": null,
+	"variables": [],
+	"order": [
+		"6a87362f-8ef7-4fce-b772-2f8fbb30e995"
+	],
+	"folders_order": [],
+	"folders": [],
+	"requests": [
+		{
+			"id": "6a87362f-8ef7-4fce-b772-2f8fbb30e995",
+			"name": "Search",
+			"url": "https://api.panviva.com/v2/customerdemo/search?term=travel&page[offset]=0&page[limit]=20",
+			"description": "Return a paginated array of resources matching the given search term.",
+			"data": null,
+			"dataMode": "params",
+			"headerData": [
+				{
+					"key": "Ocp-Apim-Subscription-Key",
+					"value": "77daa0ad873e427389cc503dfc9c24a6",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Accept",
+					"value": "application/vnd.api+json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [
+				{
+					"key": "term",
+					"value": "travel",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "page[offset]",
+					"value": "0",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "page[limit]",
+					"value": "20",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"auth": null,
+			"events": [],
+			"folder": null,
+			"headers": "Ocp-Apim-Subscription-Key: 77daa0ad873e427389cc503dfc9c24a6\nAccept: application/vnd.api+json\n",
+			"pathVariables": {}
+		}
+	]
+}
