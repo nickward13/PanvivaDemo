@@ -1,0 +1,4109 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Customer Demo API Suite v2.2.0",
+    "version": "1.0",
+    "description": "This API Suite contains a complete list of Panviva's API offerings for the [Customer Demo](https://customerdemo.supportpoint.com/) environment.\r\n\r\n**Content APIs** help perform resource related operations within Panviva products, e.g. `document`, `folder`, `file`, `container`, `image`.\r\n\r\n**Live APIs** exclusively enable real-time communications with online users on our client application.\r\n\r\nOur APIs follow the JSON API specification 1.0."
+  },
+  "host": "api.panviva.com",
+  "basePath": "/v2/customerdemo",
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKeyHeader": {
+      "type": "apiKey",
+      "name": "Ocp-Apim-Subscription-Key",
+      "in": "header"
+    },
+    "apiKeyQuery": {
+      "type": "apiKey",
+      "name": "subscription-key",
+      "in": "query"
+    }
+  },
+  "security": [
+    {
+      "apiKeyHeader": []
+    },
+    {
+      "apiKeyQuery": []
+    }
+  ],
+  "paths": {
+    "/echo": {
+      "get": {
+        "description": "Use this echo API to validate connectivity.",
+        "operationId": "Echo",
+        "summary": "Use this echo API to validate connectivity.",
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/vnd.api+json"
+        ]
+      }
+    },
+    "/document/{id}": {
+      "get": {
+        "description": "Return a single `document` resource.",
+        "operationId": "Document-GET",
+        "summary": "Get a document by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A document unique identifier, `Docment ID`.  If a document is a translated document, this value represents `Internal ID` or `IID` in Panviva API v1.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "fields[document]",
+            "in": "query",
+            "description": "Request the API to return only resource specified fields inside `attributes`, `relationships` and/or `meta` section of the resource object. The value of the fields parameter is a comma-separated list that refers to the name(s) of the fields to be returned. Field name is case sensitive.\n```\nhttps://api-staging.panviva.com/v2/demo/document/343?fields[document]=name,version,containers\n```\n\\* *Sparse fieldsets (```fields[TYPE]```) parameter can be applied to any resource ```type```.*",
+            "type": "string"
+          },
+          {
+            "name": "fields[container]",
+            "in": "query",
+            "description": "Request the API to return only resource specified fields inside `attributes`, `relationships` and/or `meta` section of the resource object. The value of the fields parameter is a comma-separated list that refers to the name(s) of the fields to be returned. Field name is case sensitive.\n```\nhttps://api-staging.panviva.com/v2/demo/container/343-229-0-119?fields[container]=name\n```\n\\* *Sparse fieldsets ```fields[TYPE]``` parameter can be applied to any resource ```type```.*",
+            "type": "string"
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "description": "Include related resources from the relationships into the ```included``` section of the response. The value of the include parameter is a comma-separated list of relationships path.\n```http\nhttps://api-staging.panviva.com/v2/demo/document/343?include=containers\n```",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operation is successful and return with the requested resource.\r\n\r\nAn example of a successful response may be seen under **Sample** below. See **Schema** for a detailed explanation of the response body.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/documentResourceResponse"
+            }
+          },
+          "400": {
+            "description": "`400 Bad Request` The request could not be understood by the server due to malformed syntax. The client should not repeat the request without modifications.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/400BadRequest"
+            }
+          },
+          "404": {
+            "description": "`400 Not Found` The server has not found anything matching the request URI.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/404NotFound"
+            }
+          },
+          "405": {
+            "description": "`405 Method Not Allowed` The method specified in the request is not allowed for the resource identified by the request URI. The response must include an `Allow` header containing a list of valid methods for the requested resource.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/405MethodNotAllowed"
+            }
+          },
+          "406": {
+            "description": "`406 Not Acceptable` The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.\nIf accept headers is specified, ```application/vnd.api+json``` must be the only media type.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/406NotAcceptable"
+            }
+          },
+          "415": {
+            "description": "`415 Unsupported Media Type` The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.\nThe only supported media type is ```application/vnd.api+json```.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/415UnsupportedMediaType"
+            }
+          },
+          "422": {
+            "description": "`422 Unprocessable Entity` The request was well-formed but was unable to be followed due to semantic errors.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/422UnprocessableEntity"
+            }
+          },
+          "500": {
+            "description": "`500 Internal Server Error` The server encountered an unexpected condition which prevented it from fulfilling the request.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/500InternalServerError"
+            }
+          }
+        },
+        "produces": [
+          "application/vnd.api+json"
+        ]
+      }
+    },
+    "/document/{id}/relationships/containers": {
+      "get": {
+        "description": "Return a collection of `container` identifier that links to the  `document` resource in the `containers` relationship.  The `containers` relationship links the document details with its contents, previously knowned as section/task/sub-section.\n- Any resource linkage with `meta.children` indicates that it has sub-level `cotnainer`(s) within this relationship.  This `container` represents section in Panviva API 1.0.\n- Any resource linkage with `meta.parent` indicates its sub-level with another `container` within this relationship.  This `container` represents task/sub-section in Panviva API 1.0.  The `parent` value is the `id` of the parent container, previously known as section.\n- Any resource linkage with `meta.taskFlow` indicates that this `container` has been marked as `task flow` and its should represent the flow of the specified `container` in this relationship.",
+        "operationId": "Document-s-Containers-Relationship-GET",
+        "summary": "Get a document's containers relationship.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A document unique identifier, `Docment ID`.  If a document is a translated document, this value represents `Internal ID` or `IID` in Panviva API v1.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operation is successful and return with the requested resource identifier collection.\r\n\r\nAn example of a successful response may be seen under **Sample** below. See **Schema** for a detailed explanation of the response body.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/documentRelationshipContainersResponse"
+            }
+          },
+          "400": {
+            "description": "`400 Bad Request` The request could not be understood by the server due to malformed syntax. The client should not repeat the request without modifications.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/400BadRequest"
+            }
+          },
+          "404": {
+            "description": "`400 Not Found` The server has not found anything matching the request URI.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/404NotFound"
+            }
+          },
+          "405": {
+            "description": "`405 Method Not Allowed` The method specified in the request is not allowed for the resource identified by the request URI. The response must include an `Allow` header containing a list of valid methods for the requested resource.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/405MethodNotAllowed"
+            }
+          },
+          "406": {
+            "description": "`406 Not Acceptable` The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.\nIf accept headers is specified, ```application/vnd.api+json``` must be the only media type.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/406NotAcceptable"
+            }
+          },
+          "415": {
+            "description": "`415 Unsupported Media Type` The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.\nThe only supported media type is ```application/vnd.api+json```.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/415UnsupportedMediaType"
+            }
+          },
+          "422": {
+            "description": "`422 Unprocessable Entity` The request was well-formed but was unable to be followed due to semantic errors.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/422UnprocessableEntity"
+            }
+          },
+          "500": {
+            "description": "`500 Internal Server Error` The server encountered an unexpected condition which prevented it from fulfilling the request.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/500InternalServerError"
+            }
+          }
+        },
+        "produces": [
+          "application/vnd.api+json"
+        ]
+      }
+    },
+    "/document/{id}/containers": {
+      "get": {
+        "description": "Return a collection of `container` resource that links to the `document`.  This refers to section/task/sub-section content in Panviva API 1.0.",
+        "operationId": "Document-s-Containers-GET",
+        "summary": "Get related resources from document's containers relationship.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A document unique identifier, `Docment ID`.  If a document is a translated document, this value represents `Internal ID` or `IID` in Panviva API v1.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "fields[container]",
+            "in": "query",
+            "description": "Request the API to return only resource specified fields inside `attributes`, `relationships` and/or `meta` section of the resource object. The value of the fields parameter is a comma-separated list that refers to the name(s) of the fields to be returned. Field name is case sensitive.\n```\nhttps://api-staging.panviva.com/v2/demo/container/343-229-0-119?fields[container]=name\n```\n\\* *Sparse fieldsets ```fields[TYPE]``` parameter can be applied to any resource ```type```.*",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operation is successful and return with the requested resource collection.\r\n\r\nAn example of a successful response may be seen under **Sample** below. See **Schema** for a detailed explanation of the response body.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/documentContainersResponse"
+            }
+          },
+          "400": {
+            "description": "`400 Bad Request` The request could not be understood by the server due to malformed syntax. The client should not repeat the request without modifications.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/400BadRequest"
+            }
+          },
+          "404": {
+            "description": "`400 Not Found` The server has not found anything matching the request URI.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/404NotFound"
+            }
+          },
+          "405": {
+            "description": "`405 Method Not Allowed` The method specified in the request is not allowed for the resource identified by the request URI. The response must include an `Allow` header containing a list of valid methods for the requested resource.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/405MethodNotAllowed"
+            }
+          },
+          "406": {
+            "description": "`406 Not Acceptable` The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.\nIf accept headers is specified, ```application/vnd.api+json``` must be the only media type.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/406NotAcceptable"
+            }
+          },
+          "415": {
+            "description": "`415 Unsupported Media Type` The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.\nThe only supported media type is ```application/vnd.api+json```.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/415UnsupportedMediaType"
+            }
+          },
+          "422": {
+            "description": "`422 Unprocessable Entity` The request was well-formed but was unable to be followed due to semantic errors.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/422UnprocessableEntity"
+            }
+          },
+          "500": {
+            "description": "`500 Internal Server Error` The server encountered an unexpected condition which prevented it from fulfilling the request.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/500InternalServerError"
+            }
+          }
+        },
+        "produces": [
+          "application/vnd.api+json"
+        ]
+      }
+    },
+    "/document/{id}/relationships/translations": {
+      "get": {
+        "description": "Return a collection of `document` identifier that links to the  `document` resource in `translations` relationship.  ",
+        "operationId": "Document-s-Translations-Relationship-GET",
+        "summary": "Get a document's translations relationship.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A document unique identifier, `Docment ID`.  If a document is a translated document, this value represents `Internal ID` or `IID` in Panviva API v1.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operation is successful and return with the requested resource identifier collection.\r\n\r\nAn example of a successful response may be seen under **Sample** below. See **Schema** for a detailed explanation of the response body.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/documentRelationshipTranslationsResponse"
+            }
+          },
+          "400": {
+            "description": "`400 Bad Request` The request could not be understood by the server due to malformed syntax. The client should not repeat the request without modifications.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/400BadRequest"
+            }
+          },
+          "404": {
+            "description": "`400 Not Found` The server has not found anything matching the request URI.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/404NotFound"
+            }
+          },
+          "405": {
+            "description": "`405 Method Not Allowed` The method specified in the request is not allowed for the resource identified by the request URI. The response must include an `Allow` header containing a list of valid methods for the requested resource.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/405MethodNotAllowed"
+            }
+          },
+          "406": {
+            "description": "`406 Not Acceptable` The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.\nIf accept headers is specified, ```application/vnd.api+json``` must be the only media type.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/406NotAcceptable"
+            }
+          },
+          "415": {
+            "description": "`415 Unsupported Media Type` The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.\nThe only supported media type is ```application/vnd.api+json```.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/415UnsupportedMediaType"
+            }
+          },
+          "422": {
+            "description": "`422 Unprocessable Entity` The request was well-formed but was unable to be followed due to semantic errors.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/422UnprocessableEntity"
+            }
+          },
+          "500": {
+            "description": "`500 Internal Server Error` The server encountered an unexpected condition which prevented it from fulfilling the request.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/500InternalServerError"
+            }
+          }
+        },
+        "produces": [
+          "application/vnd.api+json"
+        ]
+      }
+    },
+    "/document/{id}/translations": {
+      "get": {
+        "description": "Return a collection of `document` resource that links to the `document` resource in `translations` relationship.",
+        "operationId": "Document-s-Translations-GET",
+        "summary": "Get related resources from document's translations relationship.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A document unique identifier, `Docment ID`.  If a document is a translated document, this value represents `Internal ID` or `IID` in Panviva API v1.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "fields[document]",
+            "in": "query",
+            "description": "Request the API to return only resource specified fields inside `attributes`, `relationships` and/or `meta` section of the resource object. The value of the fields parameter is a comma-separated list that refers to the name(s) of the fields to be returned. Field name is case sensitive.\n```\nhttps://api-staging.panviva.com/v2/demo/document/343?fields[document]=name,version,containers\n```\n\\* *Sparse fieldsets (```fields[TYPE]```) parameter can be applied to any resource ```type```.*",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operation is successful and return with the requested resource collection.\r\n\r\nAn example of a successful response may be seen under **Sample** below. See **Schema** for a detailed explanation of the response body.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/documentTranslationsResponse"
+            }
+          },
+          "400": {
+            "description": "`400 Bad Request` The request could not be understood by the server due to malformed syntax. The client should not repeat the request without modifications.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/400BadRequest"
+            }
+          },
+          "404": {
+            "description": "`400 Not Found` The server has not found anything matching the request URI.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/404NotFound"
+            }
+          },
+          "405": {
+            "description": "`405 Method Not Allowed` The method specified in the request is not allowed for the resource identified by the request URI. The response must include an `Allow` header containing a list of valid methods for the requested resource.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/405MethodNotAllowed"
+            }
+          },
+          "406": {
+            "description": "`406 Not Acceptable` The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.\nIf accept headers is specified, ```application/vnd.api+json``` must be the only media type.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/406NotAcceptable"
+            }
+          },
+          "415": {
+            "description": "`415 Unsupported Media Type` The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.\nThe only supported media type is ```application/vnd.api+json```.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/415UnsupportedMediaType"
+            }
+          },
+          "422": {
+            "description": "`422 Unprocessable Entity` The request was well-formed but was unable to be followed due to semantic errors.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/422UnprocessableEntity"
+            }
+          },
+          "500": {
+            "description": "`500 Internal Server Error` The server encountered an unexpected condition which prevented it from fulfilling the request.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/500InternalServerError"
+            }
+          }
+        },
+        "produces": [
+          "application/vnd.api+json"
+        ]
+      }
+    },
+    "/folder": {
+      "get": {
+        "description": "Return a collection of `folder` resource that matched the search filter.  The current supported filter keyword are as following.\n- `root` Get resource root folder.  Current supported resource is `document`.  See `filter[root]` for more details.",
+        "operationId": "Folder-Search-GET",
+        "summary": "Search folder.",
+        "parameters": [
+          {
+            "name": "filter[root]",
+            "in": "query",
+            "description": "Get root `folder` resource.  The current supported value is `document`.\n```http\nhttps://api-staging.panviva.com/v2/demo/folder?filter[root]=document\n```",
+            "type": "string",
+            "default": "document",
+            "enum": [
+              "document"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operation is successful and return with the requested resource collection.\r\n\r\nAn example of a successful response may be seen under **Sample** below. See **Schema** for a detailed explanation of the response body.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/folderCollectionResponse"
+            }
+          },
+          "400": {
+            "description": "`400 Bad Request` The request could not be understood by the server due to malformed syntax. The client should not repeat the request without modifications.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/400BadRequest"
+            }
+          },
+          "404": {
+            "description": "`400 Not Found` The server has not found anything matching the request URI.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/404NotFound"
+            }
+          },
+          "405": {
+            "description": "`405 Method Not Allowed` The method specified in the request is not allowed for the resource identified by the request URI. The response must include an `Allow` header containing a list of valid methods for the requested resource.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/405MethodNotAllowed"
+            }
+          },
+          "406": {
+            "description": "`406 Not Acceptable` The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.\nIf accept headers is specified, ```application/vnd.api+json``` must be the only media type.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/406NotAcceptable"
+            }
+          },
+          "415": {
+            "description": "`415 Unsupported Media Type` The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.\nThe only supported media type is ```application/vnd.api+json```.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/415UnsupportedMediaType"
+            }
+          },
+          "422": {
+            "description": "`422 Unprocessable Entity` The request was well-formed but was unable to be followed due to semantic errors.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/422UnprocessableEntity"
+            }
+          },
+          "500": {
+            "description": "`500 Internal Server Error` The server encountered an unexpected condition which prevented it from fulfilling the request.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/500InternalServerError"
+            }
+          }
+        },
+        "produces": [
+          "application/vnd.api+json"
+        ]
+      }
+    },
+    "/folder/{id}": {
+      "get": {
+        "description": "Return a single `folder` resource.",
+        "operationId": "Folder-GET",
+        "summary": "Get a folder by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A resource unique identifier.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "fields[folder]",
+            "in": "query",
+            "description": "Request the API to return only resource specified fields inside `attributes`, `relationships` and/or `meta` section of the resource object. The value of the fields parameter is a comma-separated list that refers to the name(s) of the fields to be returned. Field name is case sensitive.\n```\nhttps://api-staging.panviva.com/v2/demo/folder/342?fields[folder]=name,children\n```\n\\* *Sparse fieldsets (```fields[TYPE]```) parameter can be applied to any resource ```type```.*",
+            "type": "string"
+          },
+          {
+            "name": "fields[document]",
+            "in": "query",
+            "description": "Request the API to return only resource specified fields inside `attributes`, `relationships` and/or `meta` section of the resource object. The value of the fields parameter is a comma-separated list that refers to the name(s) of the fields to be returned. Field name is case sensitive.\n```\nhttps://api-staging.panviva.com/v2/demo/document/343?fields[document]=name,version,containers\n```\n\\* *Sparse fieldsets (```fields[TYPE]```) parameter can be applied to any resource ```type```.*",
+            "type": "string"
+          },
+          {
+            "name": "fields[file]",
+            "in": "query",
+            "description": "Request the API to return only resource specified fields inside `attributes`, `relationships` and/or `meta` section of the resource object. The value of the fields parameter is a comma-separated list that refers to the name(s) of the fields to be returned. Field name is case sensitive.\n```\nhttps://api-staging.panviva.com/v2/demo/file/18397?fields[file]=name,content\n```\n\\* *Sparse fieldsets (```fields[TYPE]```) parameter can be applied to any resource ```type```.*",
+            "type": "string"
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "description": "Include related resources from the relationships into the ```included``` section of the response. The value of the include parameter is a comma-separated list of relationships path.\n```http\nhttps://api-staging.panviva.com/v2/demo/document/343?include=containers\n```",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operation is successful and return with the requested resource.\r\n\r\nAn example of a successful response may be seen under **Sample** below. See **Schema** for a detailed explanation of the response body.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/folderResourceResponse"
+            }
+          },
+          "400": {
+            "description": "`400 Bad Request` The request could not be understood by the server due to malformed syntax. The client should not repeat the request without modifications.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/400BadRequest"
+            }
+          },
+          "404": {
+            "description": "`400 Not Found` The server has not found anything matching the request URI.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/404NotFound"
+            }
+          },
+          "405": {
+            "description": "`405 Method Not Allowed` The method specified in the request is not allowed for the resource identified by the request URI. The response must include an `Allow` header containing a list of valid methods for the requested resource.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/405MethodNotAllowed"
+            }
+          },
+          "406": {
+            "description": "`406 Not Acceptable` The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.\nIf accept headers is specified, ```application/vnd.api+json``` must be the only media type.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/406NotAcceptable"
+            }
+          },
+          "415": {
+            "description": "`415 Unsupported Media Type` The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.\nThe only supported media type is ```application/vnd.api+json```.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/415UnsupportedMediaType"
+            }
+          },
+          "422": {
+            "description": "`422 Unprocessable Entity` The request was well-formed but was unable to be followed due to semantic errors.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/422UnprocessableEntity"
+            }
+          },
+          "500": {
+            "description": "`500 Internal Server Error` The server encountered an unexpected condition which prevented it from fulfilling the request.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/500InternalServerError"
+            }
+          }
+        },
+        "produces": [
+          "application/vnd.api+json"
+        ]
+      }
+    },
+    "/folder/{id}/relationships/children": {
+      "get": {
+        "description": "Return a collection of `folder`, `document`, and/or `file` identifier that links to the  `folder` resource in `children` relationship.  This include all the translations.  See `filter[language]` to filter out a particular language.",
+        "operationId": "Folder-s-Children-Relationship-GET",
+        "summary": "Get a folder's children relationship.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A resource unique identifier.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "filter[language]",
+            "in": "query",
+            "description": "Filter the resource collection to a particular language.  Currently only support `folder.children` relationship.\n- `default[languageCode]` returns the resource collection with a fallback mechanism to original language if the preferred language does not exist.  Language value is in Language-Region (RFC 5646), e.g., 'en-AU', 'en-US'.\n```http\nhttps://api-staging.panviva.com/v2/demo/folder?filter[language]=default[en-AU]\n```",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operation is successful and return with the requested resource identifier collection.\r\n\r\nAn example of a successful response may be seen under **Sample** below. See **Schema** for a detailed explanation of the response body.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/folderRelationshipChildrenResponse"
+            }
+          },
+          "400": {
+            "description": "`400 Bad Request` The request could not be understood by the server due to malformed syntax. The client should not repeat the request without modifications.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/400BadRequest"
+            }
+          },
+          "404": {
+            "description": "`400 Not Found` The server has not found anything matching the request URI.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/404NotFound"
+            }
+          },
+          "405": {
+            "description": "`405 Method Not Allowed` The method specified in the request is not allowed for the resource identified by the request URI. The response must include an `Allow` header containing a list of valid methods for the requested resource.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/405MethodNotAllowed"
+            }
+          },
+          "406": {
+            "description": "`406 Not Acceptable` The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.\nIf accept headers is specified, ```application/vnd.api+json``` must be the only media type.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/406NotAcceptable"
+            }
+          },
+          "415": {
+            "description": "`415 Unsupported Media Type` The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.\nThe only supported media type is ```application/vnd.api+json```.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/415UnsupportedMediaType"
+            }
+          },
+          "422": {
+            "description": "`422 Unprocessable Entity` The request was well-formed but was unable to be followed due to semantic errors.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/422UnprocessableEntity"
+            }
+          },
+          "500": {
+            "description": "`500 Internal Server Error` The server encountered an unexpected condition which prevented it from fulfilling the request.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/500InternalServerError"
+            }
+          }
+        },
+        "produces": [
+          "application/vnd.api+json"
+        ]
+      }
+    },
+    "/folder/{id}/children": {
+      "get": {
+        "description": "Return a collection of `folder`, `document` and/or `file` resource that links to the `folder` resource in `children` relationship.",
+        "operationId": "Folder-s-Children-GET",
+        "summary": "Get related resources from folder's children relationship.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A resource unique identifier.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "fields[folder]",
+            "in": "query",
+            "description": "Request the API to return only resource specified fields inside `attributes`, `relationships` and/or `meta` section of the resource object. The value of the fields parameter is a comma-separated list that refers to the name(s) of the fields to be returned. Field name is case sensitive.\n```\nhttps://api-staging.panviva.com/v2/demo/folder/342?fields[folder]=name,children\n```\n\\* *Sparse fieldsets (```fields[TYPE]```) parameter can be applied to any resource ```type```.*",
+            "type": "string"
+          },
+          {
+            "name": "fields[document]",
+            "in": "query",
+            "description": "Request the API to return only resource specified fields inside `attributes`, `relationships` and/or `meta` section of the resource object. The value of the fields parameter is a comma-separated list that refers to the name(s) of the fields to be returned. Field name is case sensitive.\n```\nhttps://api-staging.panviva.com/v2/demo/document/343?fields[document]=name,version,containers\n```\n\\* *Sparse fieldsets (```fields[TYPE]```) parameter can be applied to any resource ```type```.*",
+            "type": "string"
+          },
+          {
+            "name": "fields[file]",
+            "in": "query",
+            "description": "Request the API to return only resource specified fields inside `attributes`, `relationships` and/or `meta` section of the resource object. The value of the fields parameter is a comma-separated list that refers to the name(s) of the fields to be returned. Field name is case sensitive.\n```\nhttps://api-staging.panviva.com/v2/demo/file/18397?fields[file]=name,content\n```\n\\* *Sparse fieldsets (```fields[TYPE]```) parameter can be applied to any resource ```type```.*",
+            "type": "string"
+          },
+          {
+            "name": "filter[language]",
+            "in": "query",
+            "description": "Filter the resource collection to a particular language.  Currently only support `folder.children` relationship.\n- `default[languageCode]` returns the resource collection with a fallback mechanism to original language if the preferred language does not exist.  Language value is in Language-Region (RFC 5646), e.g., 'en-AU', 'en-US'.\n```http\nhttps://api-staging.panviva.com/v2/demo/folder?filter[language]=default[en-AU]\n```",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operation is successful and return with the requested resource collection.\r\n\r\nAn example of a successful response may be seen under **Sample** below. See **Schema** for a detailed explanation of the response body.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/folderChildrenResponse"
+            }
+          },
+          "404": {
+            "description": "`400 Not Found` The server has not found anything matching the request URI.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/404NotFound"
+            }
+          },
+          "406": {
+            "description": "`406 Not Acceptable` The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.\nIf accept headers is specified, ```application/vnd.api+json``` must be the only media type.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/406NotAcceptable"
+            }
+          },
+          "415": {
+            "description": "`415 Unsupported Media Type` The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.\nThe only supported media type is ```application/vnd.api+json```.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/415UnsupportedMediaType"
+            }
+          },
+          "422": {
+            "description": "`422 Unprocessable Entity` The request was well-formed but was unable to be followed due to semantic errors.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/422UnprocessableEntity"
+            }
+          },
+          "500": {
+            "description": "`500 Internal Server Error` The server encountered an unexpected condition which prevented it from fulfilling the request.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/500InternalServerError"
+            }
+          }
+        },
+        "produces": [
+          "application/vnd.api+json"
+        ]
+      }
+    },
+    "/folder/{id}/relationships/translations": {
+      "get": {
+        "description": "Return a collection of `folder` identifier that links to the  `folder` resource in `translations` relationship.  ",
+        "operationId": "Folder-s-Translations-Relationship-GET",
+        "summary": "Get a folder's translations relationship.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A resource unique identifier.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operation is successful and return with the requested resource identifier collection.\r\n\r\nAn example of a successful response may be seen under **Sample** below. See **Schema** for a detailed explanation of the response body.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/folderRelationshipTranslationsResponse"
+            }
+          },
+          "400": {
+            "description": "`400 Bad Request` The request could not be understood by the server due to malformed syntax. The client should not repeat the request without modifications.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/400BadRequest"
+            }
+          },
+          "404": {
+            "description": "`400 Not Found` The server has not found anything matching the request URI.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/404NotFound"
+            }
+          },
+          "405": {
+            "description": "`405 Method Not Allowed` The method specified in the request is not allowed for the resource identified by the request URI. The response must include an `Allow` header containing a list of valid methods for the requested resource.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/405MethodNotAllowed"
+            }
+          },
+          "406": {
+            "description": "`406 Not Acceptable` The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.\nIf accept headers is specified, ```application/vnd.api+json``` must be the only media type.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/406NotAcceptable"
+            }
+          },
+          "415": {
+            "description": "`415 Unsupported Media Type` The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.\nThe only supported media type is ```application/vnd.api+json```.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/415UnsupportedMediaType"
+            }
+          },
+          "422": {
+            "description": "`422 Unprocessable Entity` The request was well-formed but was unable to be followed due to semantic errors.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/422UnprocessableEntity"
+            }
+          },
+          "500": {
+            "description": "`500 Internal Server Error` The server encountered an unexpected condition which prevented it from fulfilling the request.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/500InternalServerError"
+            }
+          }
+        },
+        "produces": [
+          "application/vnd.api+json"
+        ]
+      }
+    },
+    "/folder/{id}/translations": {
+      "get": {
+        "description": "Return a collection of `folder` resource that links to the `folder` resource in `translations` relationship.",
+        "operationId": "Folder-s-Translations-GET",
+        "summary": "Get related resources from folder's translations relationship.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A resource unique identifier.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "fields[folder]",
+            "in": "query",
+            "description": "Request the API to return only resource specified fields inside `attributes`, `relationships` and/or `meta` section of the resource object. The value of the fields parameter is a comma-separated list that refers to the name(s) of the fields to be returned. Field name is case sensitive.\n```\nhttps://api-staging.panviva.com/v2/demo/folder/342?fields[folder]=name,children\n```\n\\* *Sparse fieldsets (```fields[TYPE]```) parameter can be applied to any resource ```type```.*",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operation is successful and return with the requested resource collection.\r\n\r\nAn example of a successful response may be seen under **Sample** below. See **Schema** for a detailed explanation of the response body.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/folderTranslationsResponse"
+            }
+          },
+          "400": {
+            "description": "`400 Bad Request` The request could not be understood by the server due to malformed syntax. The client should not repeat the request without modifications.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/400BadRequest"
+            }
+          },
+          "404": {
+            "description": "`400 Not Found` The server has not found anything matching the request URI.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/404NotFound"
+            }
+          },
+          "405": {
+            "description": "`405 Method Not Allowed` The method specified in the request is not allowed for the resource identified by the request URI. The response must include an `Allow` header containing a list of valid methods for the requested resource.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/405MethodNotAllowed"
+            }
+          },
+          "406": {
+            "description": "`406 Not Acceptable` The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.\nIf accept headers is specified, ```application/vnd.api+json``` must be the only media type.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/406NotAcceptable"
+            }
+          },
+          "415": {
+            "description": "`415 Unsupported Media Type` The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.\nThe only supported media type is ```application/vnd.api+json```.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/415UnsupportedMediaType"
+            }
+          },
+          "422": {
+            "description": "`422 Unprocessable Entity` The request was well-formed but was unable to be followed due to semantic errors.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/422UnprocessableEntity"
+            }
+          },
+          "500": {
+            "description": "`500 Internal Server Error` The server encountered an unexpected condition which prevented it from fulfilling the request.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/500InternalServerError"
+            }
+          }
+        },
+        "produces": [
+          "application/vnd.api+json"
+        ]
+      }
+    },
+    "/file/{id}": {
+      "get": {
+        "description": "Return a single `file` resource.",
+        "operationId": "File-GET",
+        "summary": "Get a file by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A resource unique identifier.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "fields[file]",
+            "in": "query",
+            "description": "Request the API to return only resource specified fields inside `attributes`, `relationships` and/or `meta` section of the resource object. The value of the fields parameter is a comma-separated list that refers to the name(s) of the fields to be returned. Field name is case sensitive.\n```\nhttps://api-staging.panviva.com/v2/demo/file/18397?fields[file]=name,content\n```\n\\* *Sparse fieldsets (```fields[TYPE]```) parameter can be applied to any resource ```type```.*",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operation is successful and return with the requested resource.\r\n\r\nAn example of a successful response may be seen under **Sample** below. See **Schema** for a detailed explanation of the response body.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/fileResourceResponse"
+            }
+          },
+          "400": {
+            "description": "`400 Bad Request` The request could not be understood by the server due to malformed syntax. The client should not repeat the request without modifications.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/400BadRequest"
+            }
+          },
+          "404": {
+            "description": "`400 Not Found` The server has not found anything matching the request URI.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/404NotFound"
+            }
+          },
+          "405": {
+            "description": "`405 Method Not Allowed` The method specified in the request is not allowed for the resource identified by the request URI. The response must include an `Allow` header containing a list of valid methods for the requested resource.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/405MethodNotAllowed"
+            }
+          },
+          "406": {
+            "description": "`406 Not Acceptable` The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.\nIf accept headers is specified, ```application/vnd.api+json``` must be the only media type.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/406NotAcceptable"
+            }
+          },
+          "415": {
+            "description": "`415 Unsupported Media Type` The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.\nThe only supported media type is ```application/vnd.api+json```.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/415UnsupportedMediaType"
+            }
+          },
+          "422": {
+            "description": "`422 Unprocessable Entity` The request was well-formed but was unable to be followed due to semantic errors.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/422UnprocessableEntity"
+            }
+          },
+          "500": {
+            "description": "`500 Internal Server Error` The server encountered an unexpected condition which prevented it from fulfilling the request.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/500InternalServerError"
+            }
+          }
+        },
+        "produces": [
+          "application/vnd.api+json"
+        ]
+      }
+    },
+    "/container/{id}": {
+      "get": {
+        "description": "Return a single `container` resource.",
+        "operationId": "Container-GET",
+        "summary": "Get a container by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A resource unique identifier.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "fields[container]",
+            "in": "query",
+            "description": "Request the API to return only resource specified fields inside `attributes`, `relationships` and/or `meta` section of the resource object. The value of the fields parameter is a comma-separated list that refers to the name(s) of the fields to be returned. Field name is case sensitive.\n```\nhttps://api-staging.panviva.com/v2/demo/container/343-229-0-119?fields[container]=name\n```\n\\* *Sparse fieldsets ```fields[TYPE]``` parameter can be applied to any resource ```type```.*",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operation is successful and return with the requested resource.\r\n\r\nAn example of a successful response may be seen under **Sample** below. See **Schema** for a detailed explanation of the response body.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/containerResourceResponse"
+            }
+          },
+          "400": {
+            "description": "`400 Bad Request` The request could not be understood by the server due to malformed syntax. The client should not repeat the request without modifications.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/400BadRequest"
+            }
+          },
+          "404": {
+            "description": "`400 Not Found` The server has not found anything matching the request URI.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/404NotFound"
+            }
+          },
+          "405": {
+            "description": "`405 Method Not Allowed` The method specified in the request is not allowed for the resource identified by the request URI. The response must include an `Allow` header containing a list of valid methods for the requested resource.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/405MethodNotAllowed"
+            }
+          },
+          "406": {
+            "description": "`406 Not Acceptable` The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.\nIf accept headers is specified, ```application/vnd.api+json``` must be the only media type.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/406NotAcceptable"
+            }
+          },
+          "415": {
+            "description": "`415 Unsupported Media Type` The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.\nThe only supported media type is ```application/vnd.api+json```.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/415UnsupportedMediaType"
+            }
+          },
+          "422": {
+            "description": "`422 Unprocessable Entity` The request was well-formed but was unable to be followed due to semantic errors.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/422UnprocessableEntity"
+            }
+          },
+          "500": {
+            "description": "`500 Internal Server Error` The server encountered an unexpected condition which prevented it from fulfilling the request.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/500InternalServerError"
+            }
+          }
+        },
+        "produces": [
+          "application/vnd.api+json"
+        ]
+      }
+    },
+    "/image/{id}": {
+      "get": {
+        "description": "Return a single `image` resource.",
+        "operationId": "Image-GET",
+        "summary": "Get a image by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A resource unique identifier.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "fields[image]",
+            "in": "query",
+            "description": "Request the API to return only resource specified fields inside `attributes`, `relationships` and/or `meta` section of the resource object. The value of the fields parameter is a comma-separated list that refers to the name(s) of the fields to be returned. Field name is case sensitive.\n```\nhttps://api-staging.panviva.com/v2/demo/image/1462?fields[image]=name,contentType\n```\n\\* *Sparse fieldsets ```fields[TYPE]``` parameter can be applied to any resource ```type```.*",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operation is successful and return with the requested resource.\r\n\r\nAn example of a successful response may be seen under **Sample** below. See **Schema** for a detailed explanation of the response body.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/imageResourceResponse"
+            }
+          },
+          "400": {
+            "description": "`400 Bad Request` The request could not be understood by the server due to malformed syntax. The client should not repeat the request without modifications.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/400BadRequest"
+            }
+          },
+          "404": {
+            "description": "`400 Not Found` The server has not found anything matching the request URI.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/404NotFound"
+            }
+          },
+          "405": {
+            "description": "`405 Method Not Allowed` The method specified in the request is not allowed for the resource identified by the request URI. The response must include an `Allow` header containing a list of valid methods for the requested resource.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/405MethodNotAllowed"
+            }
+          },
+          "406": {
+            "description": "`406 Not Acceptable` The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.\nIf accept headers is specified, ```application/vnd.api+json``` must be the only media type.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/406NotAcceptable"
+            }
+          },
+          "415": {
+            "description": "`415 Unsupported Media Type` The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.\nThe only supported media type is ```application/vnd.api+json```.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/415UnsupportedMediaType"
+            }
+          },
+          "422": {
+            "description": "`422 Unprocessable Entity` The request was well-formed but was unable to be followed due to semantic errors.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/422UnprocessableEntity"
+            }
+          },
+          "500": {
+            "description": "`500 Internal Server Error` The server encountered an unexpected condition which prevented it from fulfilling the request.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/500InternalServerError"
+            }
+          }
+        },
+        "produces": [
+          "application/vnd.api+json"
+        ]
+      }
+    },
+    "/live/document": {
+      "post": {
+        "description": "Present a document page to specified user on SupportPoint client.",
+        "operationId": "Live-Document-POST",
+        "summary": "Process asynchronous activities",
+        "parameters": [
+          {
+            "name": "liveDocumentParameter",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/liveDocumentParameter"
+            },
+            "description": "Meta information to perform `live` activity. \r\n\r\nAn example of a request may be seen under **Sample** below. See **Schema** for a detailed explanation of the request body."
+          }
+        ],
+        "consumes": [
+          "application/vnd.api+json"
+        ],
+        "responses": {
+          "202": {
+            "description": "The request has been accepted for processing, but the processing has not been completed. The request might or might not eventually be acted upon, as it might be disallowed when processing actually takes place. There is no facility for re-sending a status code from an asynchronous operation such as this.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            }
+          },
+          "400": {
+            "description": "`400 Bad Request` The request could not be understood by the server due to malformed syntax. The client should not repeat the request without modifications.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/400BadRequest"
+            }
+          },
+          "404": {
+            "description": "`400 Not Found` The server has not found anything matching the request URI.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/404NotFound"
+            }
+          },
+          "405": {
+            "description": "`405 Method Not Allowed` The method specified in the request is not allowed for the resource identified by the request URI. The response must include an `Allow` header containing a list of valid methods for the requested resource.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/405MethodNotAllowed"
+            }
+          },
+          "406": {
+            "description": "`406 Not Acceptable` The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.\nIf accept headers is specified, ```application/vnd.api+json``` must be the only media type.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/406NotAcceptable"
+            }
+          },
+          "415": {
+            "description": "`415 Unsupported Media Type` The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.\nThe only supported media type is ```application/vnd.api+json```.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/415UnsupportedMediaType"
+            }
+          },
+          "422": {
+            "description": "`422 Unprocessable Entity` The request was well-formed but was unable to be followed due to semantic errors.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/422UnprocessableEntity"
+            }
+          },
+          "429": {
+            "description": "`429 Too Many Requests` The number of requests reach rate-limiting scheme.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/429TooManyRequests"
+            }
+          },
+          "500": {
+            "description": "`500 Internal Server Error` The server encountered an unexpected condition which prevented it from fulfilling the request.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/500InternalServerError"
+            }
+          }
+        },
+        "produces": [
+          "application/vnd.api+json"
+        ]
+      }
+    },
+    "/live/search": {
+      "post": {
+        "description": "Present a search result page of the passing query on SupportPoint client to specified user on SupportPoint client.",
+        "operationId": "Live-Search-POST",
+        "summary": "Process asynchronous activities",
+        "parameters": [
+          {
+            "name": "liveSearchParameter",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/liveSearchParameter"
+            },
+            "description": "Meta information to perform `live` activity. \r\n\r\nAn example of a request may be seen under **Sample** below. See **Schema** for a detailed explanation of the request body."
+          }
+        ],
+        "consumes": [
+          "application/vnd.api+json"
+        ],
+        "responses": {
+          "202": {
+            "description": "The request has been accepted for processing, but the processing has not been completed. The request might or might not eventually be acted upon, as it might be disallowed when processing actually takes place. There is no facility for re-sending a status code from an asynchronous operation such as this.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            }
+          },
+          "400": {
+            "description": "`400 Bad Request` The request could not be understood by the server due to malformed syntax. The client should not repeat the request without modifications.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/400BadRequest"
+            }
+          },
+          "404": {
+            "description": "`400 Not Found` The server has not found anything matching the request URI.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/404NotFound"
+            }
+          },
+          "405": {
+            "description": "`405 Method Not Allowed` The method specified in the request is not allowed for the resource identified by the request URI. The response must include an `Allow` header containing a list of valid methods for the requested resource.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/405MethodNotAllowed"
+            }
+          },
+          "406": {
+            "description": "`406 Not Acceptable` The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.\nIf accept headers is specified, ```application/vnd.api+json``` must be the only media type.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/406NotAcceptable"
+            }
+          },
+          "415": {
+            "description": "`415 Unsupported Media Type` The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.\nThe only supported media type is ```application/vnd.api+json```.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/415UnsupportedMediaType"
+            }
+          },
+          "422": {
+            "description": "`422 Unprocessable Entity` The request was well-formed but was unable to be followed due to semantic errors.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/422UnprocessableEntity"
+            }
+          },
+          "429": {
+            "description": "`429 Too Many Requests` The number of requests reach rate-limiting scheme.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/429TooManyRequests"
+            }
+          },
+          "500": {
+            "description": "`500 Internal Server Error` The server encountered an unexpected condition which prevented it from fulfilling the request.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/500InternalServerError"
+            }
+          }
+        },
+        "produces": [
+          "application/vnd.api+json"
+        ]
+      }
+    },
+    "/live/csh-search": {
+      "post": {
+        "description": "Present a CSH search result page of the passing query on SupportPoint client to specified user on SupportPoint client.",
+        "operationId": "Live-CSH-POST",
+        "summary": "Process asynchronous activities",
+        "parameters": [
+          {
+            "name": "liveSearchParameter",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/liveSearchParameter"
+            },
+            "description": "Meta information to perform `live` activity.\r\n\r\nAn example of a request may be seen under **Sample** below. See **Schema** for a detailed explanation of the request body."
+          }
+        ],
+        "consumes": [
+          "application/vnd.api+json"
+        ],
+        "responses": {
+          "202": {
+            "description": "The request has been accepted for processing, but the processing has not been completed. The request might or might not eventually be acted upon, as it might be disallowed when processing actually takes place. There is no facility for re-sending a status code from an asynchronous operation such as this.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            }
+          },
+          "400": {
+            "description": "`400 Bad Request` The request could not be understood by the server due to malformed syntax. The client should not repeat the request without modifications.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/400BadRequest"
+            }
+          },
+          "404": {
+            "description": "`400 Not Found` The server has not found anything matching the request URI.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/404NotFound"
+            }
+          },
+          "405": {
+            "description": "`405 Method Not Allowed` The method specified in the request is not allowed for the resource identified by the request URI. The response must include an `Allow` header containing a list of valid methods for the requested resource.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/405MethodNotAllowed"
+            }
+          },
+          "406": {
+            "description": "`406 Not Acceptable` The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.\nIf accept headers is specified, ```application/vnd.api+json``` must be the only media type.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/406NotAcceptable"
+            }
+          },
+          "415": {
+            "description": "`415 Unsupported Media Type` The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.\nThe only supported media type is ```application/vnd.api+json```.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/415UnsupportedMediaType"
+            }
+          },
+          "422": {
+            "description": "`422 Unprocessable Entity` The request was well-formed but was unable to be followed due to semantic errors.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/422UnprocessableEntity"
+            }
+          },
+          "429": {
+            "description": "`429 Too Many Requests` The number of requests reach rate-limiting scheme.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/429TooManyRequests"
+            }
+          },
+          "500": {
+            "description": "`500 Internal Server Error` The server encountered an unexpected condition which prevented it from fulfilling the request.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/500InternalServerError"
+            }
+          }
+        },
+        "produces": [
+          "application/vnd.api+json"
+        ]
+      }
+    },
+    "/search": {
+      "get": {
+        "description": "Return a paginated array of resources matching the given search term.",
+        "operationId": "Search-GET",
+        "summary": "Run a search by term",
+        "parameters": [
+          {
+            "name": "term",
+            "in": "query",
+            "description": "The word or phrase to be searched for.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page[offset]",
+            "in": "query",
+            "description": "The pagination offset to denote the number of initial search results to skip. page[offset] of 100 and page[limit] of 10 would return records 101-110, for example.",
+            "type": "integer",
+            "default": "0"
+          },
+          {
+            "name": "page[limit]",
+            "in": "query",
+            "description": "The number of records to return. Must be an integer between 0 and 1000.",
+            "type": "integer",
+            "default": "20"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operation is successful and return with a list of paginated search results, regardless of whether any matches were found.\r\n\r\nAn example of a successful response may be seen under **Sample** below. See **Schema** for a detailed explanation of the response body.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/searchResourceResponse"
+            }
+          },
+          "400": {
+            "description": "`400 Bad Request` The request could not be understood by the server due to malformed syntax. The client should not repeat the request without modifications.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/400BadRequest"
+            }
+          },
+          "404": {
+            "description": "`400 Not Found` The server has not found anything matching the request URI.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/404NotFound"
+            }
+          },
+          "405": {
+            "description": "`405 Method Not Allowed` The method specified in the request is not allowed for the resource identified by the request URI. The response must include an `Allow` header containing a list of valid methods for the requested resource.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/405MethodNotAllowed"
+            }
+          },
+          "406": {
+            "description": "`406 Not Acceptable` The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.\nIf accept headers is specified, ```application/vnd.api+json``` must be the only media type.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/406NotAcceptable"
+            }
+          },
+          "415": {
+            "description": "`415 Unsupported Media Type` The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.\nThe only supported media type is ```application/vnd.api+json```.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/415UnsupportedMediaType"
+            }
+          },
+          "422": {
+            "description": "`422 Unprocessable Entity` The request was well-formed but was unable to be followed due to semantic errors.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/422UnprocessableEntity"
+            }
+          },
+          "500": {
+            "description": "`500 Internal Server Error` The server encountered an unexpected condition which prevented it from fulfilling the request.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/500InternalServerError"
+            }
+          }
+        },
+        "produces": [
+          "application/vnd.api+json"
+        ]
+      }
+    },
+    "/shelves/{id}/items": {
+      "get": {
+        "description": "Return a single `shelf` resource and its children.  This operation is **deprecated**.  Please use `/folder/{id}/children` instead.",
+        "operationId": "Shelf-Deprecated-GET",
+        "summary": "Get a shelf by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "A resource unique identifier.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "languageCode",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "countryCode",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operation is successful and return with the requested resource.  \r\n\r\nAn example of a successful response may be seen under **Sample** below. See **Schema** for a detailed explanation of the response body.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            }
+          },
+          "400": {
+            "description": "`400 Bad Request` The request could not be understood by the server due to malformed syntax. The client should not repeat the request without modifications.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/400BadRequest"
+            }
+          },
+          "404": {
+            "description": "`400 Not Found` The server has not found anything matching the request URI.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/404NotFound"
+            }
+          },
+          "405": {
+            "description": "`405 Method Not Allowed` The method specified in the request is not allowed for the resource identified by the request URI. The response must include an `Allow` header containing a list of valid methods for the requested resource.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/405MethodNotAllowed"
+            }
+          },
+          "406": {
+            "description": "`406 Not Acceptable` The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.\nIf accept headers is specified, ```application/vnd.api+json``` must be the only media type.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/406NotAcceptable"
+            }
+          },
+          "415": {
+            "description": "`415 Unsupported Media Type` The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method.\nThe only supported media type is ```application/vnd.api+json```.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/415UnsupportedMediaType"
+            }
+          },
+          "422": {
+            "description": "`422 Unprocessable Entity` The request was well-formed but was unable to be followed due to semantic errors.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/422UnprocessableEntity"
+            }
+          },
+          "500": {
+            "description": "`500 Internal Server Error` The server encountered an unexpected condition which prevented it from fulfilling the request.",
+            "headers": {
+              "X-Api-Version": {
+                "type": "string",
+                "description": "API version"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/500InternalServerError"
+            }
+          }
+        },
+        "produces": [
+          "application/vnd.api+json"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "liveDocumentParameter": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/liveParameter"
+        },
+        {
+          "properties": {
+            "meta": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "description": "SupportPoint document ID.",
+                  "type": "string"
+                },
+                "location": {
+                  "description": "Section/task/sub-section ID inside the document.  Default is '-1'.",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        {
+          "example": {
+            "meta": {
+              "username": "support-man",
+              "id": "14789",
+              "location": "-1",
+              "maximiseClient": false
+            }
+          }
+        }
+      ]
+    },
+    "liveSearchParameter": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/liveParameter"
+        },
+        {
+          "properties": {
+            "meta": {
+              "type": "object",
+              "properties": {
+                "query": {
+                  "description": "Search term.",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        {
+          "example": {
+            "meta": {
+              "username": "support-man",
+              "query": "rainbow",
+              "maximiseClient": false
+            }
+          }
+        }
+      ]
+    },
+    "liveParameter": {
+      "type": "object",
+      "properties": {
+        "meta": {
+          "type": "object",
+          "properties": {
+            "userId": {
+              "description": "User ID.  Request must contains either userId or userName.",
+              "type": "string"
+            },
+            "username": {
+              "description": "User name. Request must contains either userId or userName.",
+              "type": "string"
+            },
+            "maximiseClient": {
+              "description": "When `false` or not specified, if Panviva Desktop is minimised, it will pop up briefly before minimising again. When `true` the client will maximise and stay maximised.",
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "documentResourceResponse": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/response"
+        },
+        {
+          "properties": {
+            "data": {
+              "$ref": "#/definitions/document"
+            }
+          }
+        },
+        {
+          "example": {
+            "links": {
+              "self": "https://api-staging.panviva.com/v2/demo/document/343"
+            },
+            "data": {
+              "type": "document",
+              "id": "343",
+              "attributes": {
+                "name": "Marvel Cinematic Universe (Films)",
+                "description": "The Marvel Cinematic Universe (MCU) is an American media franchise and shared universe that is centered on a series of superhero films.",
+                "language": "en-AU",
+                "release": 33,
+                "released": true,
+                "version": 229,
+                "copyright": "Marvel Studios, LLC",
+                "classification": "films",
+                "status": "Phase Three",
+                "percentage": 100,
+                "releasedDate": "2017-09-09T04:12:52.83Z",
+                "layout": "leftTabsMedium",
+                "keywords": [
+                  "Iron Man",
+                  "Hulk",
+                  "Thor",
+                  "Captain America",
+                  "Avenger",
+                  "Guardians of the Galaxy",
+                  "Ant-Man",
+                  "Doctor Strange",
+                  "Spider-Man",
+                  "Black Panter",
+                  "Captan Marvel"
+                ],
+                "cshKeywords": [
+                  "Chrome",
+                  "MCU"
+                ],
+                "tags": [
+                  {
+                    "name": "Rank",
+                    "value": 1
+                  },
+                  {
+                    "name": "Effective date",
+                    "value": "2018-05-04T00:00:00Z"
+                  }
+                ],
+                "updatedDate": "2017-09-09T04:12:52.83Z",
+                "createdDate": "2017-08-09T04:02:46.907Z"
+              },
+              "relationships": {
+                "containers": {
+                  "links": {
+                    "self": "https://api-staging.panviva.com/v2/demo/document/343/relationships/containers",
+                    "related": "https://api-staging.panviva.com/v2/demo/document/343/containers"
+                  },
+                  "data": [
+                    {
+                      "type": "container",
+                      "id": "343-229-0-0",
+                      "meta": {
+                        "children": [
+                          "343-229-1-2",
+                          "343-229-1-4"
+                        ]
+                      }
+                    },
+                    {
+                      "type": "container",
+                      "id": "343-229-1-2",
+                      "meta": {
+                        "parent": "343-229-0-0"
+                      }
+                    },
+                    {
+                      "type": "container",
+                      "id": "343-229-1-4",
+                      "meta": {
+                        "parent": "343-229-0-0"
+                      }
+                    }
+                  ]
+                },
+                "translations": {
+                  "links": {
+                    "self": "https://api-staging.panviva.com/v2/demo/document/343/relationships/translations",
+                    "related": "https://api-staging.panviva.com/v2/demo/document/343/translations"
+                  },
+                  "data": []
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "documentRelationshipContainersResponse": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/response"
+        },
+        {
+          "properties": {
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/resourceIdentifier"
+              }
+            }
+          }
+        },
+        {
+          "example": {
+            "links": {
+              "self": "https://api-staging.panviva.com/v2/demo/document/343/relationships/containers"
+            },
+            "data": [
+              {
+                "type": "container",
+                "id": "343-229-0-0",
+                "meta": {
+                  "children": [
+                    "343-229-1-2",
+                    "343-229-3-4"
+                  ]
+                }
+              },
+              {
+                "type": "container",
+                "id": "343-229-1-2",
+                "meta": {
+                  "parent": "343-229-0-0"
+                }
+              },
+              {
+                "type": "container",
+                "id": "343-229-3-4",
+                "meta": {
+                  "parent": "343-229-0-0"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "documentContainersResponse": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/response"
+        },
+        {
+          "properties": {
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/container"
+              }
+            }
+          }
+        },
+        {
+          "example": {
+            "links": {
+              "self": "https://api-staging.panviva.com/v2/demo/document/343/containers"
+            },
+            "data": [
+              {
+                "type": "container",
+                "id": "343-229-0-0",
+                "links": {
+                  "self": "https://api-staging.panviva.com/v2/demo/container/343-229-0-0"
+                },
+                "attributes": {
+                  "name": "Phase Three"
+                }
+              },
+              {
+                "type": "container",
+                "id": "343-229-1-2",
+                "links": {
+                  "self": "https://api-staging.panviva.com/v2/demo/container/343-229-1-2"
+                },
+                "attributes": {
+                  "name": "Captain America: Civil War"
+                },
+                "meta": {
+                  "body": "<div data-link-id=\"2\" data-db-id=\"208155\"><div class=\"pv-task-header\">Captain America: Civil War</div><div class=\"pv-task-details\" style=\"width:100%;\"><p class=\"pv-who\" style=\"display:none;\" hidden=\"true\">&nbsp;</p><p class=\"pv-menupath\" style=\"display:none;\" hidden=\"true\">&nbsp;</p><p class=\"pv-shortcut\" style=\"display:none;\" hidden=\"true\">&nbsp;</p><p class=\"pv-trans\" style=\"display:none;\" hidden=\"true\">&nbsp;</p><p class=\"pv-screen\" style=\"display:none;\" hidden=\"true\">&nbsp;</p></div></div><p class=\"pv-paragraph\" data-db-id=\"208156\" data-link-id=\"3\"><span><img class=\"pv-image\" data-image-id=\"738\" alt=\"SupportPoint Image 738\" data-width=\"128\" data-height=\"128\" style=\"width:128px;height:128px;\" /></span></p>"
+                }
+              },
+              {
+                "type": "container",
+                "id": "343-229-3-4",
+                "links": {
+                  "self": "https://api-staging.panviva.com/v2/demo/container/343-229-3-4"
+                },
+                "attributes": {
+                  "name": "Doctor Strange"
+                },
+                "meta": {
+                  "body": "<div data-link-id=\"4\" data-db-id=\"208157\"><div class=\"pv-task-header\">Doctor Strange</div><div class=\"pv-task-details\" style=\"width:100%;\"><p class=\"pv-who\" style=\"display:none;\" hidden=\"true\">&nbsp;</p><p class=\"pv-menupath\" style=\"display:none;\" hidden=\"true\">&nbsp;</p><p class=\"pv-shortcut\" style=\"display:none;\" hidden=\"true\">&nbsp;</p><p class=\"pv-trans\" style=\"display:none;\" hidden=\"true\">&nbsp;</p><p class=\"pv-screen\" style=\"display:none;\" hidden=\"true\">&nbsp;</p></div></div><p class=\"pv-paragraph\" data-db-id=\"208158\" data-link-id=\"5\">Mr. Doctor?</p>"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "documentRelationshipTranslationsResponse": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/response"
+        },
+        {
+          "properties": {
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/resourceIdentifier"
+              }
+            },
+            "meta": {
+              "type": "object",
+              "properties": {
+                "origin": {
+                  "description": "An ID of the original document in this relationship.",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        {
+          "example": {
+            "links": {
+              "self": "https://api-staging.panviva.com/v2/demo/document/343/relationships/translations"
+            },
+            "data": [
+              {
+                "type": "document",
+                "id": "247"
+              },
+              {
+                "type": "document",
+                "id": "568"
+              }
+            ],
+            "meta": {
+              "origin": "247"
+            }
+          }
+        }
+      ]
+    },
+    "documentTranslationsResponse": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/response"
+        },
+        {
+          "properties": {
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/document"
+              }
+            }
+          }
+        },
+        {
+          "example": {
+            "links": {
+              "self": "https://api-staging.panviva.com/v2/demo/document/343/translations?fields[document]=name,language"
+            },
+            "data": [
+              {
+                "type": "document",
+                "id": "247",
+                "links": {
+                  "self": "https://api-staging.panviva.com/v2/demo/document/247"
+                },
+                "attributes": {
+                  "name": "Marvel Cinematic Universe (Films)",
+                  "language": "en-US"
+                }
+              },
+              {
+                "type": "document",
+                "id": "568",
+                "links": {
+                  "self": "https://api-staging.panviva.com/v2/demo/document/568"
+                },
+                "attributes": {
+                  "name": "Univers cinÃ©matographique Marvel. (Films)",
+                  "language": "fr-FR"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "searchResourceResponse": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/response"
+        },
+        {
+          "example": {
+            "links": {
+              "self": "https://api-staging.panviva.com/v2/demo/search?term=emergency%20contacts"
+            },
+            "data": {
+              "links": {
+                "self": "https://example.com/search?term=condimentum",
+                "next": "https://example.com/search?term=condimentum&page[offset]=2",
+                "last": "https://example.com/search?term=condimentum&page[offset]=10"
+              },
+              "data": [
+                {
+                  "type": "document",
+                  "id": "1279",
+                  "links": {
+                    "self": "https://example.com/document/1279"
+                  },
+                  "attributes": {
+                    "name": "Lorem ipsum dolor",
+                    "description": "Suspendisse consectetur dignissim est, vel tincidunt enim.",
+                    "layout": "topTabsMedium",
+                    "classification": "B",
+                    "updatedDate": "2016-03-03T00:42:12.937Z",
+                    "matchedFields": [
+                      "name",
+                      "containers"
+                    ],
+                    "snippet": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce volutpat, nunc id luctus condimentum, diam elit elementum justo, ut malesuada diam purus eu est. Mauris aliquam tincidunt diam in dapibus. Nullam nunc sapien, efficitur vel purus sed, rutrum consectetur enim. Aliquam erat volutpat. Ut rhoncus ligula nec congue semper. Nam et leo erat."
+                  }
+                },
+                {
+                  "type": "file",
+                  "id": "8944",
+                  "links": {
+                    "self": "https://example.com/file/8944"
+                  },
+                  "attributes": {
+                    "name": "Lorem ipsum dolor",
+                    "description": "Suspendisse consectetur dignissim est, vel tincidunt enim.",
+                    "fileName": "report.pdf",
+                    "classification": "B",
+                    "updatedDate": "2016-03-03T00:42:12.937Z",
+                    "matchedField": [
+                      "content"
+                    ],
+                    "snippet": "Nullam commodo purus augue, vel tristique ligula condimentum non. Nunc ut justo vel leo maximus cursus. In hac habitasse platea dictumst. Phasellus tincidunt congue feugiat. Vestibulum sollicitudin posuere volutpat. Etiam pellentesque justo id lacus bibendum, eu tempor enim varius."
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "folderCollectionResponse": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/response"
+        },
+        {
+          "properties": {
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/resource"
+              }
+            }
+          }
+        },
+        {
+          "example": {
+            "links": {
+              "self": "https://api-staging.panviva.com/v2/demo/folder?filter[root]=document"
+            },
+            "data": [
+              {
+                "type": "folder",
+                "id": "1",
+                "links": {
+                  "self": "https://api-staging.panviva.com/v2/demo/folder/1"
+                },
+                "attributes": {
+                  "name": "Home",
+                  "version": 8,
+                  "language": "en-AU"
+                },
+                "relationships": {
+                  "children": {
+                    "links": {
+                      "self": "https://api-staging.panviva.com/v2/demo/folder/1/relationships/children",
+                      "related": "https://api-staging.panviva.com/v2/demo/folder/1/children"
+                    },
+                    "data": [
+                      {
+                        "type": "folder",
+                        "id": "11553"
+                      },
+                      {
+                        "type": "folder",
+                        "id": "3"
+                      },
+                      {
+                        "type": "document",
+                        "id": "15462"
+                      }
+                    ]
+                  },
+                  "translations": {
+                    "links": {
+                      "self": "https://api-staging.panviva.com/v2/demo/folder/1/relationships/translations",
+                      "related": "https://api-staging.panviva.com/v2/demo/folder/1/translations"
+                    },
+                    "data": []
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "folderResourceResponse": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/response"
+        },
+        {
+          "properties": {
+            "data": {
+              "$ref": "#/definitions/folder"
+            }
+          }
+        },
+        {
+          "example": {
+            "links": {
+              "self": "https://api-staging.panviva.com/v2/demo/folder/342"
+            },
+            "data": {
+              "type": "folder",
+              "id": "342",
+              "attributes": {
+                "name": "The films",
+                "description": "Films that make a grown man squeal by the memories of his childhood",
+                "language": "en-AU",
+                "release": 2,
+                "released": true,
+                "version": 10,
+                "keywords": [
+                  "Films"
+                ],
+                "cshKeywords": [
+                  "Childhood"
+                ],
+                "tags": [
+                  {
+                    "name": "Rank",
+                    "value": 1
+                  },
+                  {
+                    "name": "Effective date",
+                    "value": "2015-02-15T00:00:00Z"
+                  }
+                ]
+              },
+              "relationships": {
+                "children": {
+                  "links": {
+                    "self": "https://api-staging.panviva.com/v2/demo/folder/342/relationships/children",
+                    "related": "https://api-staging.panviva.com/v2/demo/folder/342/children"
+                  },
+                  "data": [
+                    {
+                      "type": "folder",
+                      "id": "11596"
+                    },
+                    {
+                      "type": "document",
+                      "id": "343"
+                    },
+                    {
+                      "type": "file",
+                      "id": "18397"
+                    }
+                  ]
+                },
+                "translations": {
+                  "links": {
+                    "self": "https://api-staging.panviva.com/v2/demo/folder/342/relationships/translations",
+                    "related": "https://api-staging.panviva.com/v2/demo/folder/342/translations"
+                  },
+                  "data": []
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "folderRelationshipChildrenResponse": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/response"
+        },
+        {
+          "properties": {
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/resourceIdentifier"
+              }
+            }
+          }
+        },
+        {
+          "example": {
+            "links": {
+              "self": "https://api-staging.panviva.com/v2/demo/folder/342/relationships/children"
+            },
+            "data": [
+              {
+                "type": "folder",
+                "id": "11596"
+              },
+              {
+                "type": "document",
+                "id": "343"
+              },
+              {
+                "type": "file",
+                "id": "18397"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "folderChildrenResponse": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/response"
+        },
+        {
+          "properties": {
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/folder"
+              }
+            }
+          }
+        },
+        {
+          "example": {
+            "links": {
+              "self": "https://api-staging.panviva.com/v2/demo/folder/75875/children?fields[folder]=name&fields[document]=name,layout&fields[file]=name"
+            },
+            "data": [
+              {
+                "type": "folder",
+                "id": "84374",
+                "links": {
+                  "self": "https://api-staging.panviva.com/v2/demo/folder/84374"
+                },
+                "attributes": {
+                  "name": "Infinity stones"
+                }
+              },
+              {
+                "type": "document",
+                "id": "343",
+                "links": {
+                  "self": "https://api-staging.panviva.com/v2/demo/document/343"
+                },
+                "attributes": {
+                  "name": "The eye of Agamotto",
+                  "layout": "topTabsSmall"
+                }
+              },
+              {
+                "type": "file",
+                "id": "18397",
+                "links": {
+                  "self": "https://api-staging.panviva.com/v2/demo/file/18397"
+                },
+                "attributes": {
+                  "name": "Mjolnir"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "folderRelationshipTranslationsResponse": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/response"
+        },
+        {
+          "properties": {
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/resourceIdentifier"
+              }
+            },
+            "meta": {
+              "type": "object",
+              "properties": {
+                "origin": {
+                  "description": "An ID of the original folder in this relationship.",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        {
+          "example": {
+            "links": {
+              "self": "https://api-staging.panviva.com/v2/demo/folder/75875/relationships/translations"
+            },
+            "data": [
+              {
+                "type": "folder",
+                "id": "84374"
+              },
+              {
+                "type": "folder",
+                "id": "7228"
+              }
+            ],
+            "meta": {
+              "origin": "7228"
+            }
+          }
+        }
+      ]
+    },
+    "folderTranslationsResponse": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/response"
+        },
+        {
+          "properties": {
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/folder"
+              }
+            }
+          }
+        },
+        {
+          "example": {
+            "links": {
+              "self": "https://api-staging.panviva.com/v2/demo/folder/75875/translations?fields[folder]=name,language"
+            },
+            "data": [
+              {
+                "type": "folder",
+                "id": "84374",
+                "links": {
+                  "self": "https://api-staging.panviva.com/v2/demo/folder/84374"
+                },
+                "attributes": {
+                  "name": "KÃ¤se",
+                  "language": "de-DE"
+                }
+              },
+              {
+                "type": "document",
+                "id": "7228",
+                "links": {
+                  "self": "https://api-staging.panviva.com/v2/demo/folder/7228"
+                },
+                "attributes": {
+                  "name": "Fromage",
+                  "language": "fr-FR"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "fileResourceResponse": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/response"
+        },
+        {
+          "properties": {
+            "data": {
+              "$ref": "#/definitions/file"
+            }
+          }
+        },
+        {
+          "example": {
+            "links": {
+              "self": "https://api-staging.panviva.com/v2/demo/file/18397"
+            },
+            "data": {
+              "type": "file",
+              "id": "18397",
+              "attributes": {
+                "name": "Top secret",
+                "description": "Classified object.",
+                "fileName": "topsecret.docx",
+                "language": "en-AU",
+                "release": 2,
+                "released": true,
+                "version": 3,
+                "copyright": "Classified",
+                "classification": "Classified",
+                "status": "Ready to execute.",
+                "percentage": 100,
+                "releasedDate": "2017-09-10T14:00:00Z",
+                "keywords": [
+                  "Important",
+                  "Secret"
+                ],
+                "cshKeywords": [
+                  "NoneOfYourBusiness"
+                ],
+                "tags": [
+                  {
+                    "name": "Rank",
+                    "value": 12
+                  },
+                  {
+                    "name": "Effective date",
+                    "value": "2018-05-04T00:00:00Z"
+                  }
+                ],
+                "updatedDate": "2017-09-09T04:12:52.83Z",
+                "createdDate": "2017-08-09T04:02:46.907Z"
+              },
+              "meta": {
+                "content": "SSBrbmV3IHlvdSB3b3VsZCB0cnku"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "containerResourceResponse": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/response"
+        },
+        {
+          "properties": {
+            "data": {
+              "$ref": "#/definitions/container"
+            }
+          }
+        },
+        {
+          "example": {
+            "links": {
+              "self": "https://api-staging.panviva.com/v2/demo/container/343-229-1-2"
+            },
+            "data": [
+              {
+                "type": "container",
+                "id": "343-229-1-2",
+                "links": {
+                  "self": "https://api-staging.panviva.com/v2/demo/container/343-229-1-2"
+                },
+                "attributes": {
+                  "name": "Captain America: Civil War"
+                },
+                "meta": {
+                  "body": "<div data-link-id=\"2\" data-db-id=\"208155\"><div class=\"pv-task-header\">Captain America: Civil War</div><div class=\"pv-task-details\" style=\"width:100%;\"><p class=\"pv-who\" style=\"display:none;\" hidden=\"true\">&nbsp;</p><p class=\"pv-menupath\" style=\"display:none;\" hidden=\"true\">&nbsp;</p><p class=\"pv-shortcut\" style=\"display:none;\" hidden=\"true\">&nbsp;</p><p class=\"pv-trans\" style=\"display:none;\" hidden=\"true\">&nbsp;</p><p class=\"pv-screen\" style=\"display:none;\" hidden=\"true\">&nbsp;</p></div></div><p class=\"pv-paragraph\" data-db-id=\"208156\" data-link-id=\"3\"><span><img class=\"pv-image\" data-image-id=\"738\" alt=\"SupportPoint Image 738\" data-width=\"128\" data-height=\"128\" style=\"width:128px;height:128px;\" /></span></p>"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "imageResourceResponse": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/response"
+        },
+        {
+          "properties": {
+            "data": {
+              "$ref": "#/definitions/image"
+            }
+          }
+        },
+        {
+          "example": {
+            "links": {
+              "self": "https://api-staging.panviva.com/v2/demo/image/1462"
+            },
+            "data": [
+              {
+                "type": "image",
+                "id": "1462",
+                "links": {
+                  "self": "https://api-staging.panviva.com/v2/demo/image/1462"
+                },
+                "attributes": {
+                  "name": "icon_info.png"
+                },
+                "meta": {
+                  "content": "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAABIAAAASABGyWs+AAAACXZwQWcAAAAQAAAAEABcxq3DAAACwklEQVQ4y22TT2hcVRTGf+e+N5mapEkmJs2kqSWpZGyJQjRWUUEKuirdibRYFy1aN0WXBcWNutKFK3VTkaKLKugiigUFpYKC1JaWWtSkpKaRTmaS4CTpe2/en/vucTEjSf/c3eV853fOd7mfcJdz4e8bT/QNbNt/qR7vulqPZKnRnFusLX93+uW9P9+ulc2X46d/G39ysnKyWCg8vZo6QTdqmc2prgS/zi/Ujn12dOrKHYAjn158dM/4ju+LWwolEbmlqM6BMahCs5kG1/5ZOXDy4J6fAAzAgXe+6B+5rzydIqUgyQkSS5hYgsRSLuQcrnSyo+gIEosV6S4Plb46+OHZ7QA+wNjk46+nynYbW0TAbDJWGuyka0sBqxDGGU7Bqd47NDr2FnBM9r54wps6dLwmxgyYdrOItECqlDuF1AnLsaKqbQDgXDTz4/SA37dz9+6bcTZgRDBGWgCEsR6P/ZU+Joa3cm5hjVOXGxsApzjVzt6dDzzi5+KVgyjDMyBGMCJs6/Twjc/izZSJYagFGUEzRZUWxCnOQY5X9tMsT8MoaU03gogQNmFxLeGVx4ZQVX6YbRBEtwMUEpv660vV2bw8ocYYkbYNBJ6qlOgqFpipB/xVC1BVaK/fhmhevzFjLp96s55E8fkwjImimDCMicKEZyslAM5cWeLhwQ6iMGGzJo6aV8+9/9KsD9Bcb7zr/O4vpW2hq+jx4EgPAKO9HcxW1wnDBLQ1XZ3iYd8D8ABWfvn8z61Tz1eyzD2UZTnW5uwa7OLCfIOPz85z6foqNrVkaY5NLblNv127+M2J8Nr5ja/c/8yrHR3j+z5RzGERAbklJqBK6xHsdL74+wvLX78d3REmgO59rz3n9Y684fWPToKY/9vzxvW5+I8zH+Qrcx/Zfxeyu6ZxI6Piyz39w6anfD+o79aqVW2uVoEQyDZL/wN0KnGLRYYg1QAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxMC0wMi0xMFQxMjowMTo1OC0wNjowMBPHUbwAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMDktMDEtMDRUMTQ6Mjc6MDAtMDY6MDAp2xYhAAAAAElFTkSuQmCC"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "document": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/resource"
+        },
+        {
+          "properties": {
+            "id": {
+              "description": "A document unique identifier. If a document is a translated document, this value refers to `Internal ID` or `IID` in Manager."
+            },
+            "type": {
+              "default": "document"
+            },
+            "attributes": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "description": "A document name.",
+                  "type": "string"
+                },
+                "description": {
+                  "description": "A document description.",
+                  "type": "string"
+                },
+                "language": {
+                  "description": "A document language represent in 'Language-Region' (RFC 5646).  For example, 'en-AU', 'en-US'.",
+                  "type": "string"
+                },
+                "release": {
+                  "description": "A release number of a document.",
+                  "type": "number"
+                },
+                "released": {
+                  "description": "A boolean value indicates whether the document is relesed.",
+                  "type": "boolean"
+                },
+                "version": {
+                  "description": "A document version.",
+                  "type": "number"
+                },
+                "copyright": {
+                  "description": "A document copyright.",
+                  "type": "string"
+                },
+                "classification": {
+                  "description": "A document classification.",
+                  "type": "string"
+                },
+                "status": {
+                  "description": "A document status.",
+                  "type": "string"
+                },
+                "percentage": {
+                  "description": "A percentage completed of the document.",
+                  "type": "number"
+                },
+                "releasedDate": {
+                  "description": "A document release datetime.",
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "layout": {
+                  "description": "A designed representation of the document.",
+                  "type": "string",
+                  "enum": [
+                    "topTabsFullScreen",
+                    "topTabsMedium",
+                    "topTabsSmall",
+                    "leftTabsFullScreen",
+                    "leftTabsMedium",
+                    "sideWindow"
+                  ]
+                },
+                "reusableContent": {
+                  "description": "A boolean value indicates whether the document is a reusable content.",
+                  "type": "boolean"
+                },
+                "keywords": {
+                  "description": "A document keywords used in search.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "cshKeywords": {
+                  "description": "A document keywords used in CSH search.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "training": {
+                  "description": "A additional training attributes for training document.",
+                  "type": "object",
+                  "properties": {
+                    "failureFeedback": {
+                      "type": "string"
+                    },
+                    "forcePageSequence": {
+                      "type": "boolean"
+                    },
+                    "forceQuestionSequence": {
+                      "type": "boolean"
+                    },
+                    "passingScore": {
+                      "type": "number"
+                    },
+                    "successFeedback": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "tags": {
+                  "$ref": "#/definitions/tags"
+                },
+                "hidden": {
+                  "description": "A boolean value indicates whether the document is to be hidden from search.",
+                  "type": "boolean"
+                },
+                "locked": {
+                  "description": "A boolean value indicates whether the document is currently locked (possibly from being edited).",
+                  "type": "boolean"
+                },
+                "changeNote": {
+                  "description": "A version note.",
+                  "type": "string"
+                },
+                "updatedDate": {
+                  "description": "A datetime when a document was last updated.",
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "createdDate": {
+                  "description": "A datetime when a document was created.",
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            },
+            "relationships": {
+              "properties": {
+                "containers": {
+                  "allOf": [
+                    {
+                      "$ref": "#/definitions/toManyRelationship"
+                    },
+                    {
+                      "description": "A collection of document content.  Previously called `section`, `task`, and `sub-section` in Panviva API 1.0."
+                    }
+                  ]
+                },
+                "translations": {
+                  "allOf": [
+                    {
+                      "$ref": "#/definitions/toManyRelationship"
+                    },
+                    {
+                      "description": "A collection of the translated and/or original documents."
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "container": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/resource"
+        },
+        {
+          "description": "A document HTML content. Previously called section, task, and sub-section in Panviva API 1.0."
+        },
+        {
+          "properties": {
+            "attributes": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Name of the container."
+                }
+              }
+            },
+            "meta": {
+              "type": "object",
+              "properties": {
+                "body": {
+                  "type": "string",
+                  "description": "HTML content of the container."
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "folder": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/resource"
+        },
+        {
+          "properties": {
+            "type": {
+              "default": "folder"
+            },
+            "attributes": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "description": "A folder name.",
+                  "type": "string"
+                },
+                "description": {
+                  "description": "A folder description.",
+                  "type": "string"
+                },
+                "language": {
+                  "description": "A folder language represent in 'Language-Region' (RFC 5646).  For example, 'en-AU', 'en-US'.",
+                  "type": "string"
+                },
+                "version": {
+                  "description": "A folder version.",
+                  "type": "number"
+                },
+                "tags": {
+                  "$ref": "#/definitions/tags"
+                },
+                "hidden": {
+                  "description": "A boolean value indicates whether the folder is to be hidden from search.",
+                  "type": "boolean"
+                }
+              }
+            },
+            "relationships": {
+              "properties": {
+                "children": {
+                  "allOf": [
+                    {
+                      "$ref": "#/definitions/toManyRelationship"
+                    },
+                    {
+                      "description": "A collection of folder children."
+                    }
+                  ]
+                },
+                "translations": {
+                  "allOf": [
+                    {
+                      "$ref": "#/definitions/toManyRelationship"
+                    },
+                    {
+                      "description": "A collection of the translated and/or original folders."
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "file": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/resource"
+        },
+        {
+          "properties": {
+            "type": {
+              "default": "file"
+            },
+            "attributes": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "description": "A file name.",
+                  "type": "string"
+                },
+                "description": {
+                  "description": "A file description.",
+                  "type": "string"
+                },
+                "fileName": {
+                  "description": "A file name with extension.",
+                  "type": "string"
+                },
+                "language": {
+                  "description": "A file language represent in 'Language-Region' (RFC 5646).  For example, 'en-AU', 'en-US'.",
+                  "type": "string"
+                },
+                "release": {
+                  "description": "A release number of a file.",
+                  "type": "number"
+                },
+                "released": {
+                  "description": "A boolean value indicates whether the file is relesed.",
+                  "type": "boolean"
+                },
+                "version": {
+                  "description": "A file version.",
+                  "type": "number"
+                },
+                "copyright": {
+                  "description": "A file copyright.",
+                  "type": "string"
+                },
+                "classification": {
+                  "description": "A file classification.",
+                  "type": "string"
+                },
+                "status": {
+                  "description": "A file status.",
+                  "type": "string"
+                },
+                "percentage": {
+                  "description": "A percentage completed of the file.",
+                  "type": "number"
+                },
+                "releasedDate": {
+                  "description": "A file release datetime.",
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "keywords": {
+                  "description": "A file keywords used in search.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "cshKeywords": {
+                  "description": "A file keywords used in CSH search.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "tags": {
+                  "$ref": "#/definitions/tags"
+                },
+                "hidden": {
+                  "description": "A boolean value indicates whether the file is to be hidden from search.",
+                  "type": "boolean"
+                },
+                "changeNote": {
+                  "description": "A version note.",
+                  "type": "string"
+                },
+                "updatedDate": {
+                  "description": "A datetime when a file was last updated.",
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "createdDate": {
+                  "description": "A datetime when a file was created.",
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            },
+            "meta": {
+              "type": "object",
+              "properties": {
+                "content": {
+                  "description": "Base64 string of the file content",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "image": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/resource"
+        },
+        {
+          "properties": {
+            "type": {
+              "default": "image"
+            },
+            "attributes": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "description": "An image name.",
+                  "type": "string"
+                },
+                "width": {
+                  "description": "An image width in pixel.",
+                  "type": "integer"
+                },
+                "height": {
+                  "description": "An image height in pixel.",
+                  "type": "integer"
+                },
+                "size": {
+                  "description": "An image size in byte.",
+                  "type": "integer"
+                },
+                "contentType": {
+                  "description": "An image content-type, e.g. `image/png`, `image/jpeg`. **(All images are converted to `image/png` on upload.)**"
+                }
+              }
+            },
+            "meta": {
+              "type": "object",
+              "properties": {
+                "content": {
+                  "description": "Base64 string of the image content",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "description": "A custom label attached to the resource. Previously called `custom properties` in Panviva API 1.0.",
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Tag name",
+            "type": "string"
+          },
+          "value": {
+            "description": "Tag value can be one of the following primitive data types; `string`, `number`, `date`."
+          }
+        }
+      }
+    },
+    "resource": {
+      "type": "object",
+      "discriminator": "type",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "document",
+            "container",
+            "file",
+            "folder",
+            "image",
+            "shelf"
+          ],
+          "readOnly": true
+        },
+        "id": {
+          "description": "A resource unique identifier.",
+          "type": "string"
+        },
+        "links": {
+          "description": "A link object that related to the resource.",
+          "type": "object",
+          "properties": {
+            "self": {
+              "type": "string",
+              "readOnly": true
+            }
+          },
+          "readOnly": true
+        },
+        "attributes": {
+          "description": "An attributes object representing some of the resourceâ€™s data.",
+          "type": "object"
+        },
+        "relationships": {
+          "description": "A relationships object describing relationships between the resource and other resources.",
+          "type": "object"
+        },
+        "meta": {
+          "description": "A non-standard meta-information about a resource.",
+          "type": "object"
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "resourceIdentifier": {
+      "type": "object",
+      "discriminator": "type",
+      "properties": {
+        "type": {
+          "type": "string",
+          "readOnly": true
+        },
+        "id": {
+          "type": "string",
+          "readOnly": true
+        },
+        "meta": {
+          "type": "object",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "type",
+        "id"
+      ]
+    },
+    "relationship": {
+      "description": "A relationships object describing relationships between the resource and other resources.",
+      "type": "object",
+      "properties": {
+        "links": {
+          "type": "object",
+          "properties": {
+            "self": {
+              "description": "A link for the relationship itself.",
+              "type": "string",
+              "readOnly": true
+            },
+            "related": {
+              "description": "A related resource link.",
+              "type": "string",
+              "readOnly": true
+            }
+          },
+          "readOnly": true
+        },
+        "meta": {
+          "description": "A non-standard meta-information about a relationship.",
+          "type": "object"
+        }
+      }
+    },
+    "toOneRelationship": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/relationship"
+        },
+        {
+          "properties": {
+            "data": {
+              "$ref": "#/definitions/resourceIdentifier"
+            }
+          }
+        }
+      ]
+    },
+    "toManyRelationship": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/relationship"
+        },
+        {
+          "properties": {
+            "data": {
+              "description": "A resource linkage representing in an array of resource identifier objects for to-many relationship.",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/resourceIdentifier"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "links": {
+          "description": "A link object that related to primary data.",
+          "type": "object",
+          "properties": {
+            "self": {
+              "description": "A link that generated the current response.",
+              "type": "string",
+              "readOnly": true
+            }
+          }
+        },
+        "meta": {
+          "description": "A non-standard meta-information about a response.",
+          "type": "object"
+        },
+        "included": {
+          "description": "An array of resource objects that are related to the primary data.",
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "error": {
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "integer",
+                "description": "HTTP status code"
+              },
+              "title": {
+                "type": "string",
+                "description": "HTTP status code description"
+              },
+              "detail": {
+                "type": "string",
+                "description": "Error details"
+              }
+            }
+          }
+        }
+      }
+    },
+    "400BadRequest": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/error"
+        },
+        {
+          "example": {
+            "errors": [
+              {
+                "status": 400,
+                "title": "Bad Request"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "404NotFound": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/error"
+        },
+        {
+          "example": {
+            "errors": [
+              {
+                "status": 404,
+                "title": "Not Found"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "405MethodNotAllowed": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/error"
+        },
+        {
+          "example": {
+            "errors": [
+              {
+                "status": 405,
+                "title": "Method Not Allowed"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "406NotAcceptable": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/error"
+        },
+        {
+          "example": {
+            "errors": [
+              {
+                "status": 406,
+                "title": "Not Acceptable"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "415UnsupportedMediaType": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/error"
+        },
+        {
+          "example": {
+            "errors": [
+              {
+                "status": 415,
+                "title": "Unsupported Media Type"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "422UnprocessableEntity": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/error"
+        },
+        {
+          "example": {
+            "errors": [
+              {
+                "status": 422,
+                "title": "Unprocessable Entity"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "429TooManyRequests": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/error"
+        },
+        {
+          "example": {
+            "errors": [
+              {
+                "status": 429,
+                "title": "Too Many Requests"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "500InternalServerError": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/error"
+        },
+        {
+          "example": {
+            "errors": [
+              {
+                "status": 500,
+                "title": "Internal Server Error",
+                "detail": "An unknown server-side error has occurred. Please try again later or contact support."
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "tags": []
+}
