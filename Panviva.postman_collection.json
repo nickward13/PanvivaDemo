@@ -20,12 +20,6 @@
 			"dataMode": "params",
 			"headerData": [
 				{
-					"key": "Ocp-Apim-Subscription-Key",
-					"value": "77daa0ad873e427389cc503dfc9c24a6",
-					"description": "",
-					"enabled": true
-				},
-				{
 					"key": "Accept",
 					"value": "application/vnd.api+json",
 					"description": "",
@@ -60,7 +54,7 @@
 			"auth": null,
 			"events": [],
 			"folder": null,
-			"headers": "Ocp-Apim-Subscription-Key: 77daa0ad873e427389cc503dfc9c24a6\nAccept: application/vnd.api+json\n",
+			"headers": "Accept: application/vnd.api+json\n",
 			"pathVariables": {}
 		}
 	]
